@@ -13,12 +13,4 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime.compatibility
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: .,
- libs/ecj-4.4.2.jar,
- libs/tomcat-dbcp.jar,
- libs/tomcat-embed-core.jar,
- libs/tomcat-embed-el.jar,
- libs/tomcat-embed-jasper.jar,
- libs/tomcat-embed-logging-juli.jar,
- libs/tomcat-embed-logging-log4j.jar,
- libs/tomcat-embed-websocket.jar
+Bundle-ClassPath: .

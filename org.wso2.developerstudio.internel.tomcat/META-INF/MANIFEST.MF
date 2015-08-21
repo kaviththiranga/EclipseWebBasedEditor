@@ -6,4 +6,12 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.wso2.developerstudio.internal.tomcat.Activator
 Require-Bundle: org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .,
+ libs/ecj-4.4.2.jar,
+ libs/tomcat-dbcp.jar,
+ libs/tomcat-embed-core.jar,
+ libs/tomcat-embed-el.jar,
+ libs/tomcat-embed-jasper.jar,
+ libs/tomcat-embed-logging-juli.jar,
+ libs/tomcat-embed-logging-log4j.jar,
+ libs/tomcat7-embed-websocket.jar
