@@ -38,7 +38,7 @@ public class Activator implements BundleActivator {
 					addJarFileUrls(libs, classpath);
 					ClassLoader classLoader = new URLClassLoader(classpath.toArray(new URL[classpath.size()]));
 					// Set the proper class loader for this thread.
-					Thread.currentThread().setContextClassLoader(classLoader);
+					//Thread.currentThread().setContextClassLoader(classLoader);
 					Class<?> appClass = classLoader
 							.loadClass("org.wso2.developerstudio.internal.tomcat.server.TomcatServer");
 					serverInstance = appClass.newInstance();
