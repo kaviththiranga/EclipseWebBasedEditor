@@ -1,14 +1,13 @@
-package embeddedbrowser.editors.util;
+package org.wso2.developerstudio.webeditor.handler;
 
 import org.eclipse.jface.action.Action;
-
-import embeddedbrowser.editors.BrowserEditor;
+import org.wso2.developerstudio.webeditor.core.WebBasedEditor;
 
 public class BrowserSaveHandler extends Action {
 
-	protected BrowserEditor browserEditor;
+	protected WebBasedEditor browserEditor;
 	
-	public BrowserSaveHandler(BrowserEditor browserEditor) {
+	public BrowserSaveHandler(WebBasedEditor browserEditor) {
 		super();
 		this.browserEditor = browserEditor;
 	}

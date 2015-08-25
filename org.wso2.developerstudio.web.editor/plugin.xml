@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            name="WebBasedEditor"
+            name="Web Based Editor"
             extensions="mpe"
             icon="icons/sample.gif"
-            class="embeddedbrowser.editors.BrowserEditor"
-            id="embeddedbrowser.editors.BrowserEditor">
+            class="org.wso2.developerstudio.webeditor.core.WebBasedEditor"
+            id="org.wso2.developerstudio.webeditor">
       </editor>
    </extension>
 </plugin>

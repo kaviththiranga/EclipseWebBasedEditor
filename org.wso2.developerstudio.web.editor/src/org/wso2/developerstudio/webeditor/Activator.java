@@ -1,4 +1,4 @@
-package embeddedbrowser;
+package org.wso2.developerstudio.webeditor;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -11,10 +11,11 @@ import org.osgi.framework.BundleContext;
  */
 public class Activator extends AbstractUIPlugin {
 
+	private static final String TOMCAT_BUNDLE_ID = "org.wso2.developerstudio.internal.tomcat";
+
 	// The plug-in ID
-	public static final String PLUGIN_ID = "EmbeddedBrowser"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "c"; //$NON-NLS-1$
 	
-	//public static String url = "http://localhost:8085/editor";
 	public static String url = "/home/kavith/GitHome/standalone-editor/index.html";
 
 	// The shared instance
@@ -33,9 +34,10 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		
-		Bundle bundle = Platform.getBundle("org.wso2.developerstudio.internal.tomcat");
-		bundle.start();
+		Bundle bundle = Platform.getBundle(TOMCAT_BUNDLE_ID);
+		if (bundle.getState() != Bundle.ACTIVE) {
+			bundle.start();
+		}
 	}
 
 	/*
@@ -45,7 +47,6 @@ public class Activator extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
-
 	}
 
 	/**

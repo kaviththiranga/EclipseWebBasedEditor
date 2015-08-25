@@ -1,4 +1,4 @@
-package embeddedbrowser.editors.util;
+package org.wso2.developerstudio.webeditor.model;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.operations.AbstractOperation;
@@ -6,15 +6,14 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-
-import embeddedbrowser.editors.BrowserEditor;
+import org.wso2.developerstudio.webeditor.core.WebBasedEditor;
 
 public class UndoableBrowserOperation extends AbstractOperation {
 
 	protected String uniqueOperationID;
-	protected BrowserEditor browserEditor;
+	protected WebBasedEditor browserEditor;
 	
-	public UndoableBrowserOperation(String label, String uniqueOperationID, BrowserEditor browserEditor) {
+	public UndoableBrowserOperation(String label, String uniqueOperationID, WebBasedEditor browserEditor) {
 		super(label);
 		this.uniqueOperationID = uniqueOperationID;
 		this.browserEditor = browserEditor;

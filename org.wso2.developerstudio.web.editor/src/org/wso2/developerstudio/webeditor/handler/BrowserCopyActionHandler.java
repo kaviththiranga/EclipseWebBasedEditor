@@ -1,4 +1,4 @@
-package embeddedbrowser.editors.util;
+package org.wso2.developerstudio.webeditor.handler;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuCreator;
