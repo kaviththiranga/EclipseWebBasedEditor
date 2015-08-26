@@ -25,6 +25,7 @@ import org.wso2.developerstudio.webeditor.function.ExecuteUndoableTaskFunction;
 import org.wso2.developerstudio.webeditor.function.GetFileContentFunction;
 import org.wso2.developerstudio.webeditor.function.SaveContentFunction;
 import org.wso2.developerstudio.webeditor.function.SetDirtyFunction;
+import org.wso2.developerstudio.webeditor.function.SetFocusToEditorPartFunction;
 import org.wso2.developerstudio.webeditor.handler.BrowserCopyActionHandler;
 import org.wso2.developerstudio.webeditor.model.BrowserScript;
 import org.wso2.developerstudio.webeditor.util.ScriptFactory;
@@ -125,6 +126,7 @@ public class WebBasedEditor extends EditorPart {
 			new SetDirtyFunction(editorInstance);
 			new ExecuteUndoableTaskFunction(editorInstance);
 			new GetFileContentFunction(editorInstance);
+			new SetFocusToEditorPartFunction(editorInstance);
 		} else {
 			throw new IllegalStateException("Browser is not yet instantiated.");
 		}
@@ -132,7 +134,7 @@ public class WebBasedEditor extends EditorPart {
 
 	@Override
 	public void setFocus() {
-		super.getEditorSite().getPage().activate(this);
+		getEditorSite().getPage().activate(this);
 	}
 
 	@Override

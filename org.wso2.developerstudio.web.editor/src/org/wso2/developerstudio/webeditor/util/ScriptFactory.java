@@ -26,17 +26,17 @@ public class ScriptFactory {
 
 	public static BrowserScript createFunctionCallScript(String functionName,
 			JsonElement[] args) {
-		return new BrowserScript(functionName, toJsonStringArray(args));
+		return createFunctionCallScript(functionName, toJsonStringArray(args));
 	}
 
 	public static BrowserScript createFunctionCallScript(String functionName,
 			JsonElement argument) {
-		return new BrowserScript(functionName,
+		return createFunctionCallScript(functionName,
 				new String[] { toJsonString(argument) });
 	}
 
 	public static BrowserScript createFunctionCallScript(String functionName) {
-		return new BrowserScript(functionName, null);
+		return createFunctionCallScript(functionName, new String[] {});
 	}
 
 	private static String toJsonString(JsonElement jsonElement) {
