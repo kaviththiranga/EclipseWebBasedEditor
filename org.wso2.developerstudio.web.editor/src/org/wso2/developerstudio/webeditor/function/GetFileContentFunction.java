@@ -1,4 +1,4 @@
-package org.wso2.developerstudio.webeditor.core.function;
+package org.wso2.developerstudio.webeditor.function;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,9 +7,9 @@ import org.apache.commons.io.IOUtils;
 import org.eclipse.core.runtime.CoreException;
 import org.wso2.developerstudio.webeditor.core.WebBasedEditor;
 
-public class GetFileContentEditorFunction extends AbstractWebEditorFunction {
+public class GetFileContentFunction extends AbstractWebEditorFunction {
 
-	public GetFileContentEditorFunction(WebBasedEditor editor) {
+	public GetFileContentFunction(WebBasedEditor editor) {
 		super(editor, "IDEGetFileContent");
 	}
 

@@ -15,7 +15,7 @@ public class BrowserSaveHandler extends Action {
 
 	@Override
 	public void run() {
-		browserEditor.updateContent("Executed Save Command");
+		//browserEditor.updateContent("Executed Save Command");
 		browserEditor.setDirty(false);
 		setEnabled(false);
 	}

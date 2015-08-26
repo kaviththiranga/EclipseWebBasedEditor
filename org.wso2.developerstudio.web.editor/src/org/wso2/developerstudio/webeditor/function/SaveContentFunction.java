@@ -1,4 +1,4 @@
-package org.wso2.developerstudio.webeditor.core.function;
+package org.wso2.developerstudio.webeditor.function;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,9 +7,9 @@ import org.apache.commons.io.IOUtils;
 import org.eclipse.core.runtime.CoreException;
 import org.wso2.developerstudio.webeditor.core.WebBasedEditor;
 
-public class SaveContentEditorFunction extends AbstractWebEditorFunction{
+public class SaveContentFunction extends AbstractWebEditorFunction{
 
-	public SaveContentEditorFunction(WebBasedEditor editor) {
+	public SaveContentFunction(WebBasedEditor editor) {
 		super(editor, "IDESaveContent");
 	}
 

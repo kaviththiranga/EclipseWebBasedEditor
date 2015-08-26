@@ -1,4 +1,4 @@
-package org.wso2.developerstudio.webeditor.core.function;
+package org.wso2.developerstudio.webeditor.function;
 
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.BrowserFunction;

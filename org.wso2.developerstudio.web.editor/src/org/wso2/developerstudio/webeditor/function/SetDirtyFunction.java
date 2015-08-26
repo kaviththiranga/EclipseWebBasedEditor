@@ -1,10 +1,10 @@
-package org.wso2.developerstudio.webeditor.core.function;
+package org.wso2.developerstudio.webeditor.function;
 
 import org.wso2.developerstudio.webeditor.core.WebBasedEditor;
 
-public class SetDirtyEditorFunction extends AbstractWebEditorFunction {
+public class SetDirtyFunction extends AbstractWebEditorFunction {
 
-	public SetDirtyEditorFunction(WebBasedEditor editor) {
+	public SetDirtyFunction(WebBasedEditor editor) {
 		super(editor, "IDESetDirty");
 	}
 
