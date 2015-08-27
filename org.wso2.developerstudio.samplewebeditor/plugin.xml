@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="Sample Multi-page Editor"
+            extensions="mpe"
+            icon="icons/sample.gif"
+            contributorClass="org.wso2.developerstudio.samplewebeditor.editors.MultiPageEditorContributor"
+            class="org.wso2.developerstudio.samplewebeditor.editors.MultiPageEditor"
+            id="org.wso2.developerstudio.samplewebeditor.editors.MultiPageEditor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="Sample Wizards"
+            id="org.wso2.developerstudio.samplewebeditor">
+      </category>
+      <wizard
+            name="Multi-page Editor file"
+            icon="icons/sample.gif"
+            category="org.wso2.developerstudio.samplewebeditor"
+            class="org.wso2.developerstudio.samplewebeditor.wizards.SampleNewWizard"
+            id="org.wso2.developerstudio.samplewebeditor.wizards.SampleNewWizard">
+      </wizard>
+   </extension>
+
+</plugin>

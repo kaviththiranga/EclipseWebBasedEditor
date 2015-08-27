@@ -27,11 +27,16 @@ import java.util.List;
 import org.eclipse.core.runtime.FileLocator;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+import org.osgi.framework.ServiceRegistration;
+import org.wso2.developerstudio.internal.tomcat.api.ITomcatServer;
 
 public class Activator implements BundleActivator {
 
 	private static BundleContext context;
+
 	private Object serverInstance;
+	private ServiceReference<?> tomcatServiceReference;
 
 	static BundleContext getContext() {
 		return context;
@@ -39,7 +44,10 @@ public class Activator implements BundleActivator {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
+	 * 
+	 * @see
+	 * org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext
+	 * )
 	 */
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
@@ -47,16 +55,19 @@ public class Activator implements BundleActivator {
 			public void run() {
 				try {
 					List<URL> classpath = new ArrayList<>();
-					URL bundleURI = FileLocator.resolve(context.getBundle().getResource("."));
+					URL bundleURI = FileLocator.resolve(context.getBundle()
+							.getResource("."));
 					classpath.add(bundleURI);
-					URI libsURI = FileLocator.resolve(context.getBundle().getResource("libs")).toURI();
+					URI libsURI = FileLocator.resolve(
+							context.getBundle().getResource("libs")).toURI();
 					File libs = new File(libsURI);
 					addJarFileUrls(libs, classpath);
-					ClassLoader classLoader = new URLClassLoader(classpath.toArray(new URL[classpath.size()]));
+					ClassLoader classLoader = new URLClassLoader(classpath
+							.toArray(new URL[classpath.size()]));
 					// Set the proper class loader for this thread.
-					//Thread.currentThread().setContextClassLoader(classLoader);
+					Thread.currentThread().setContextClassLoader(classLoader);
 					Class<?> appClass = classLoader
-							.loadClass("org.wso2.developerstudio.internal.tomcat.server.TomcatServer");
+							.loadClass("org.wso2.developerstudio.internal.tomcat.server.TomcatServerImpl");
 					serverInstance = appClass.newInstance();
 					Method m = serverInstance.getClass().getMethod("start",
 							new Class[0]);
@@ -66,18 +77,24 @@ public class Activator implements BundleActivator {
 				}
 			}
 		}).start();
+		ServiceRegistration<?> registerService = bundleContext.registerService(
+				ITomcatServer.class.getName(), serverInstance, null);
+		tomcatServiceReference = registerService.getReference();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
+	 * 
+	 * @see
+	 * org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext bundleContext) throws Exception {
 		Activator.context = null;
 		Method m = serverInstance.getClass().getMethod("stop", new Class[0]);
-	    m.invoke(serverInstance, new Object[0]);
+		m.invoke(serverInstance, new Object[0]);
+		bundleContext.ungetService(tomcatServiceReference);
 	}
-	
+
 	private static void addJarFileUrls(File root, List<URL> jarUrls)
 			throws MalformedURLException {
 		File[] files = root.listFiles();
