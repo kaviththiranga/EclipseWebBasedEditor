@@ -29,9 +29,7 @@ public class Activator extends AbstractUIPlugin {
 	private static final String TOMCAT_BUNDLE_ID = "org.wso2.developerstudio.internal.tomcat";
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "c"; //$NON-NLS-1$
-	
-	public static String url = "/home/kavith/GitHome/standalone-editor/index.html";
+	public static final String PLUGIN_ID = "org.wso2.developerstudio.webeditor"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;

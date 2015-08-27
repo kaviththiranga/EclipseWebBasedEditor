@@ -21,14 +21,14 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.wso2.developerstudio.webeditor.core.WebBasedEditor;
+import org.wso2.developerstudio.webeditor.core.AbstractWebBasedEditor;
 
 public class UndoableBrowserOperation extends AbstractOperation {
 
 	protected String uniqueOperationID;
-	protected WebBasedEditor browserEditor;
+	protected AbstractWebBasedEditor browserEditor;
 	
-	public UndoableBrowserOperation(String label, String uniqueOperationID, WebBasedEditor browserEditor) {
+	public UndoableBrowserOperation(String label, String uniqueOperationID, AbstractWebBasedEditor browserEditor) {
 		super(label);
 		this.uniqueOperationID = uniqueOperationID;
 		this.browserEditor = browserEditor;

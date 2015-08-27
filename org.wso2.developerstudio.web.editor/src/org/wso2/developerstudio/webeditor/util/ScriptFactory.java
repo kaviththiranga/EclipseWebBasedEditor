@@ -23,11 +23,13 @@ import com.google.gson.JsonElement;
 public class ScriptFactory {
 
 	private static Gson gson;
-	public static final BrowserScript FN_LOAD_FILE_CONTENT;
+	public static final BrowserScript INVOKE_FN_LOAD_FILE_CONTENT;
+	public static final BrowserScript INVOKE_FN_SAVE_FILE;
 
 	static {
 		gson = new Gson();
-		FN_LOAD_FILE_CONTENT = createFunctionCallScript("loadFileContent");
+		INVOKE_FN_LOAD_FILE_CONTENT = createFunctionCallScript("loadFileContent");
+		INVOKE_FN_SAVE_FILE = createFunctionCallScript("saveFile");
 	}
 
 	public static BrowserScript createScript(String script) {

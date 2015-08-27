@@ -16,13 +16,13 @@
 package org.wso2.developerstudio.webeditor.handler;
 
 import org.eclipse.jface.action.Action;
-import org.wso2.developerstudio.webeditor.core.WebBasedEditor;
+import org.wso2.developerstudio.webeditor.core.AbstractWebBasedEditor;
 
 public class BrowserSaveHandler extends Action {
 
-	protected WebBasedEditor browserEditor;
+	protected AbstractWebBasedEditor browserEditor;
 	
-	public BrowserSaveHandler(WebBasedEditor browserEditor) {
+	public BrowserSaveHandler(AbstractWebBasedEditor browserEditor) {
 		super();
 		this.browserEditor = browserEditor;
 	}

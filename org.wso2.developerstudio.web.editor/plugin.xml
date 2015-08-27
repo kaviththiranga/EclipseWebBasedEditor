@@ -6,8 +6,8 @@
       <editor
             name="Web Based Editor"
             extensions="mpe"
-            icon="icons/sample.gif"
-            class="org.wso2.developerstudio.webeditor.core.WebBasedEditor"
+            icon="icons/icon.png"
+            class="org.wso2.developerstudio.webeditor.core.SampleTextAreaWebEditor"
             id="org.wso2.developerstudio.webeditor">
       </editor>
    </extension>

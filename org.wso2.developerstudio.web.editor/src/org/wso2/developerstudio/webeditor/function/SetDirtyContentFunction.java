@@ -17,15 +17,18 @@ package org.wso2.developerstudio.webeditor.function;
 
 import org.wso2.developerstudio.webeditor.core.AbstractWebBasedEditor;
 
-public class SetFocusToEditorPartFunction extends AbstractWebEditorFunction {
+public class SetDirtyContentFunction extends AbstractWebEditorFunction{
 
-	public SetFocusToEditorPartFunction(AbstractWebBasedEditor editor) {
-		super(editor, "IDESetFocusToEditorPart");
+	public SetDirtyContentFunction(AbstractWebBasedEditor editor) {
+		super(editor, "IDESetDirtyContent");
 	}
-
+	
 	@Override
 	public Object function(Object[] arguments) {
-		editor.setFocus();
-		return null;
+		String dirtyContent = (String) arguments[0];
+		editor.setDirtyContent(dirtyContent);
+		return true;
 	}
+	
+
 }

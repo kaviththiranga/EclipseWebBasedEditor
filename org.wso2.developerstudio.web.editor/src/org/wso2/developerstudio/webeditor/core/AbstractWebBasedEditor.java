@@ -37,34 +37,40 @@ import org.eclipse.ui.operations.UndoActionHandler;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.FileEditorInput;
 import org.wso2.developerstudio.webeditor.function.ExecuteUndoableTaskFunction;
+import org.wso2.developerstudio.webeditor.function.GetDirtyContentFunction;
 import org.wso2.developerstudio.webeditor.function.GetFileContentFunction;
 import org.wso2.developerstudio.webeditor.function.SaveContentFunction;
+import org.wso2.developerstudio.webeditor.function.SetDirtyContentFunction;
 import org.wso2.developerstudio.webeditor.function.SetDirtyFunction;
 import org.wso2.developerstudio.webeditor.function.SetFocusToEditorPartFunction;
 import org.wso2.developerstudio.webeditor.handler.BrowserCopyActionHandler;
 import org.wso2.developerstudio.webeditor.model.BrowserScript;
 import org.wso2.developerstudio.webeditor.util.ScriptFactory;
 
-import com.google.gson.JsonObject;
-
-public class WebBasedEditor extends EditorPart {
+public abstract class AbstractWebBasedEditor extends EditorPart {
 
 	protected Browser browser;
 	protected ObjectUndoContext editorUndoContext;
 	protected FileEditorInput editorInput;
-	protected WebBasedEditor editorInstance;
-	
+	protected AbstractWebBasedEditor editorInstance;
+	protected String dirtyContent;
+
 	protected boolean isDirty;
 
-	public WebBasedEditor() {
-		editorInstance = this;
-		editorUndoContext = new ObjectUndoContext(this);
+	public AbstractWebBasedEditor() {
+		this.editorInstance = this;
+		this.editorUndoContext = new ObjectUndoContext(this);
 	}
+
+	public abstract String getWebAppURL();
+
+	public abstract String getEditorName();
+
+	public abstract String getEditorTitleToolTip();
 
 	@Override
 	public void doSave(IProgressMonitor arg0) {
-		BrowserScript script = ScriptFactory.createFunctionCallScript("saveFile");
-		executeScriptOnBrowser(script);
+		executeScriptOnBrowser(ScriptFactory.INVOKE_FN_SAVE_FILE);
 	}
 
 	@Override
@@ -77,12 +83,18 @@ public class WebBasedEditor extends EditorPart {
 		setSite(site);
 		setInput(input);
 		editorInput = (FileEditorInput) input;
+		initActionHandlers();
+	}
+
+	protected void initActionHandlers() {
+		IEditorSite site = (IEditorSite) getSite();
 		IActionBars actionBars = site.getActionBars();
 		actionBars.setGlobalActionHandler(ActionFactory.UNDO.getId(),
 				new UndoActionHandler(site, editorUndoContext));
 		actionBars.setGlobalActionHandler(ActionFactory.REDO.getId(),
 				new RedoActionHandler(site, editorUndoContext));
-		actionBars.setGlobalActionHandler(ActionFactory.COPY.getId(), new BrowserCopyActionHandler());
+		actionBars.setGlobalActionHandler(ActionFactory.COPY.getId(),
+				new BrowserCopyActionHandler());
 	}
 
 	@Override
@@ -93,10 +105,11 @@ public class WebBasedEditor extends EditorPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		browser = new Browser(parent, SWT.NONE);
-		browser.setUrl(org.wso2.developerstudio.webeditor.Activator.url);
+		browser.setUrl(getWebAppURL());
 		browser.addControlListener(new ControlListener() {
 			public void controlResized(ControlEvent e) {
 			}
+
 			public void controlMoved(ControlEvent e) {
 			}
 		});
@@ -104,7 +117,7 @@ public class WebBasedEditor extends EditorPart {
 
 			@Override
 			public void completed(ProgressEvent arg0) {
-				executeScriptOnBrowser(ScriptFactory.FN_LOAD_FILE_CONTENT);
+				executeScriptOnBrowser(ScriptFactory.INVOKE_FN_LOAD_FILE_CONTENT);
 			}
 
 			@Override
@@ -113,28 +126,30 @@ public class WebBasedEditor extends EditorPart {
 			}
 		});
 		browser.addFocusListener(new FocusListener() {
-			
+
 			@Override
 			public void focusLost(FocusEvent arg0) {
-				
+
 			}
-			
+
 			@Override
 			public void focusGained(FocusEvent arg0) {
 				editorInstance.setFocus();
 			}
 		});
-		injectEditorJSFunctions();
-		setPartName(editorInput.getName());
+		injectCustomJSFunctions();
+		setPartName(getEditorName());
 	}
 
-	protected void injectEditorJSFunctions() {
+	protected void injectCustomJSFunctions() {
 		if (browser != null) {
 			new SaveContentFunction(editorInstance);
 			new SetDirtyFunction(editorInstance);
 			new ExecuteUndoableTaskFunction(editorInstance);
 			new GetFileContentFunction(editorInstance);
 			new SetFocusToEditorPartFunction(editorInstance);
+			new GetDirtyContentFunction(editorInstance);
+			new SetDirtyContentFunction(editorInstance);
 		} else {
 			throw new IllegalStateException("Browser is not yet instantiated.");
 		}
@@ -147,11 +162,11 @@ public class WebBasedEditor extends EditorPart {
 
 	@Override
 	public String getTitleToolTip() {
-		return "Browser Based editor.";
+		return getEditorTitleToolTip();
 	}
 
-	public boolean executeScriptOnBrowser(BrowserScript script){
-		if(browser != null){
+	public boolean executeScriptOnBrowser(BrowserScript script) {
+		if (browser != null) {
 			return browser.execute(script.getScript());
 		}
 		return false;
@@ -174,11 +189,20 @@ public class WebBasedEditor extends EditorPart {
 	public boolean sendRedoMessage(String uniqueOperationID) {
 		return false;
 	}
+
 	public Browser getBrowser() {
 		return browser;
 	}
 
 	public UndoContext getUndoContext() {
 		return editorUndoContext;
+	}
+
+	public String getDirtyContent() {
+		return dirtyContent;
+	}
+
+	public void setDirtyContent(String dirtyContent) {
+		this.dirtyContent = dirtyContent;
 	}
 }

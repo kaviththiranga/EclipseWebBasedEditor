@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Embedded-Tomcat-Server
-Bundle-SymbolicName: org.wso2.developerstudio.internal.tomcat
+Bundle-SymbolicName: org.wso2.developerstudio.internal.tomcat;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.wso2.developerstudio.internal.tomcat.Activator
 Require-Bundle: org.eclipse.core.runtime
@@ -15,3 +15,4 @@ Bundle-ClassPath: .,
  libs/tomcat-embed-logging-juli.jar,
  libs/tomcat-embed-logging-log4j.jar,
  libs/tomcat7-embed-websocket.jar
+Bundle-ActivationPolicy: lazy

@@ -20,11 +20,11 @@ import java.io.InputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.eclipse.core.runtime.CoreException;
-import org.wso2.developerstudio.webeditor.core.WebBasedEditor;
+import org.wso2.developerstudio.webeditor.core.AbstractWebBasedEditor;
 
 public class GetFileContentFunction extends AbstractWebEditorFunction {
 
-	public GetFileContentFunction(WebBasedEditor editor) {
+	public GetFileContentFunction(AbstractWebBasedEditor editor) {
 		super(editor, "IDEGetFileContent");
 	}
 
@@ -34,6 +34,7 @@ public class GetFileContentFunction extends AbstractWebEditorFunction {
 		try {
 			inputStream = editorInput.getFile().getContents();
 			String content = IOUtils.toString(inputStream);
+			editor.setDirtyContent(content);
 			return content;
 		} catch (CoreException e) {
 			e.printStackTrace();
