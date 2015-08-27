@@ -15,18 +15,14 @@
  */
 package org.wso2.developerstudio.webeditor;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle
  */
 public class Activator extends AbstractUIPlugin {
-
-	private static final String TOMCAT_BUNDLE_ID = "org.wso2.developerstudio.internal.tomcat";
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.wso2.developerstudio.webeditor"; //$NON-NLS-1$
@@ -47,10 +43,6 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		Bundle bundle = Platform.getBundle(TOMCAT_BUNDLE_ID);
-		if (bundle.getState() != Bundle.ACTIVE) {
-			bundle.start();
-		}
 	}
 
 	/*

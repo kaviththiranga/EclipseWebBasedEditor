@@ -1,10 +1,13 @@
-package org.wso2.developerstudio.webeditor.core;
+package org.wso2.developerstudio.samplewebeditor.editors;
+
+import org.wso2.developerstudio.webeditor.core.AbstractWebBasedEditor;
+import org.wso2.developerstudio.samplewebeditor.Activator;
 
 public class SampleTextAreaWebEditor extends AbstractWebBasedEditor{
 
 	@Override
 	public String getWebAppURL() {
-		return "/home/kavith/GitHome/standalone-editor/index.html";
+		return Activator.getDefault().getEditorAppURL();
 	}
 
 	@Override

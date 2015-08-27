@@ -2,11 +2,11 @@
 <?eclipse version="3.4"?>
 <plugin>
 
-   <extension
+   <!--extension
          point="org.eclipse.ui.editors">
       <editor
             name="Sample Multi-page Editor"
-            extensions="mpe"
+            extensions="mpe2"
             icon="icons/sample.gif"
             contributorClass="org.wso2.developerstudio.samplewebeditor.editors.MultiPageEditorContributor"
             class="org.wso2.developerstudio.samplewebeditor.editors.MultiPageEditor"
@@ -26,6 +26,16 @@
             class="org.wso2.developerstudio.samplewebeditor.wizards.SampleNewWizard"
             id="org.wso2.developerstudio.samplewebeditor.wizards.SampleNewWizard">
       </wizard>
+   </extension-->
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="Web Based Editor"
+            extensions="mpe"
+            icon="icons/icon.png"
+            class="org.wso2.developerstudio.samplewebeditor.editors.SampleTextAreaWebEditor"
+            id="org.wso2.developerstudio.samplewebeditor.editors.SampleTextAreaWebEditor">
+      </editor>
    </extension>
 
 </plugin>

@@ -22,6 +22,8 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Enumeration;
 import java.util.List;
 
 import org.eclipse.core.runtime.FileLocator;
@@ -53,31 +55,33 @@ public class Activator implements BundleActivator {
 		Activator.context = bundleContext;
 		new Thread(new Runnable() {
 			public void run() {
-				try {
-					List<URL> classpath = new ArrayList<>();
-					URL bundleURI = FileLocator.resolve(context.getBundle()
-							.getResource("."));
-					classpath.add(bundleURI);
-					URI libsURI = FileLocator.resolve(
-							context.getBundle().getResource("libs")).toURI();
-					File libs = new File(libsURI);
-					addJarFileUrls(libs, classpath);
-					ClassLoader classLoader = new URLClassLoader(classpath
-							.toArray(new URL[classpath.size()]));
-					// Set the proper class loader for this thread.
-					Thread.currentThread().setContextClassLoader(classLoader);
-					Class<?> appClass = classLoader
-							.loadClass("org.wso2.developerstudio.internal.tomcat.server.TomcatServerImpl");
-					serverInstance = appClass.newInstance();
-					Method m = serverInstance.getClass().getMethod("start",
-							new Class[0]);
-					m.invoke(serverInstance, new Object[0]);
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
+				
 			}
 		}).start();
-		ServiceRegistration<?> registerService = bundleContext.registerService(
+		try {
+			List<URL> classpath = new ArrayList<>();
+			URL bundleURI = FileLocator.resolve(context.getBundle()
+					.getResource("."));
+			classpath.add(bundleURI);
+			URI libsURI = FileLocator.resolve(
+					context.getBundle().getResource("libs")).toURI();
+			File libs = new File(libsURI);
+			addJarFileUrls(libs, classpath);
+			ClassLoader classLoader = new URLClassLoader(classpath
+					.toArray(new URL[classpath.size()]));
+			// Set the proper class loader for this thread.
+			Thread.currentThread().setContextClassLoader(classLoader);
+			Class<?> appClass = classLoader
+					.loadClass("org.wso2.developerstudio.internal.tomcat.server.TomcatServerImpl");
+			serverInstance = appClass.newInstance();
+			Method m = serverInstance.getClass().getMethod("start",
+					new Class[0]);
+			m.invoke(serverInstance, new Object[0]);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		ServiceRegistration<?> registerService = context.registerService(
 				ITomcatServer.class.getName(), serverInstance, null);
 		tomcatServiceReference = registerService.getReference();
 	}
