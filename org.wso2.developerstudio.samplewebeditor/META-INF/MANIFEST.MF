@@ -3,15 +3,16 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Samplewebeditor
 Bundle-SymbolicName: org.wso2.developerstudio.samplewebeditor;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.wso2.developerstudio.samplewebeditor.Activator
+Bundle-Activator: org.wso2.developerstudio.samplewebeditor.SampleWebEditorPlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.jface.text,
  org.eclipse.core.resources,
  org.eclipse.ui.editors,
  org.eclipse.ui.ide,
- org.wso2.developerstudio.internal.tomcat;bundle-version="1.0.0",
- org.wso2.developerstudio.webeditor;bundle-version="1.0.0",
- org.eclipse.osgi
+ org.wso2.developerstudio.webeditor,
+ org.eclipse.osgi,
+ org.wso2.developerstudio.internal.tomcat
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .

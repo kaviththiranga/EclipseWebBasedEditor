@@ -20,4 +20,8 @@ public interface ITomcatServer {
 	void addWebApp(String appID, String context, String docBase);
 
 	String getAppURL(String appID);
+	
+	void start();
+	
+	void stop();
 }

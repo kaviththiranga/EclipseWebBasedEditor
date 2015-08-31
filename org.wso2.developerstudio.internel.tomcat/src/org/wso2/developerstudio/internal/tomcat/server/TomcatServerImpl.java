@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.ServerSocket;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +28,8 @@ import javax.servlet.ServletException;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
+import org.eclipse.core.runtime.FileLocator;
+import org.wso2.developerstudio.internal.tomcat.EmbeddedTomcatPlugin;
 import org.wso2.developerstudio.internal.tomcat.api.ITomcatServer;
 
 public class TomcatServerImpl implements ITomcatServer {
@@ -52,17 +55,21 @@ public class TomcatServerImpl implements ITomcatServer {
 		}
 	}
 
-	public void start(){
+	@Override
+	public void start() {
 		try {
+			tomcat.init();
+			tomcat.getService().setContainer(tomcat.getEngine());
 			tomcat.start();
 		} catch (LifecycleException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		tomcat.getServer().await();
+		// tomcat.getServer().await();
 	}
 
-	public void stop(){
+	@Override
+	public void stop() {
 		try {
 			tomcat.stop();
 		} catch (LifecycleException e) {
@@ -76,7 +83,7 @@ public class TomcatServerImpl implements ITomcatServer {
 		try {
 			Context appContext = tomcat.addWebapp(context, docBase);
 			File configFile = new File(docBase + "/WEB-INF/web.xml");
-			if(configFile.exists()){
+			if (configFile.exists()) {
 				appContext.setConfigFile(configFile.toURI().toURL());
 			}
 			appContext.setParentClassLoader(Thread.currentThread()
@@ -95,7 +102,7 @@ public class TomcatServerImpl implements ITomcatServer {
 		return deployedApps.get(appID);
 	}
 
-	private String getURLForContext(String context){
+	private String getURLForContext(String context) {
 		return "http://localhost:" + port + "/" + context;
 	}
 

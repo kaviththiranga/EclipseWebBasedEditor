@@ -3,8 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Embedded-Tomcat-Server
 Bundle-SymbolicName: org.wso2.developerstudio.internal.tomcat;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.wso2.developerstudio.internal.tomcat.Activator
-Require-Bundle: org.eclipse.core.runtime
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ClassPath: .,
  libs/ecj-4.4.2.jar,
@@ -16,4 +16,6 @@ Bundle-ClassPath: .,
  libs/tomcat-embed-logging-log4j.jar,
  libs/tomcat7-embed-websocket.jar
 Bundle-ActivationPolicy: lazy
-Export-Package: org.wso2.developerstudio.internal.tomcat.api
+Export-Package: org.wso2.developerstudio.internal.tomcat,
+ org.wso2.developerstudio.internal.tomcat.api
+Bundle-Activator: org.wso2.developerstudio.internal.tomcat.EmbeddedTomcatPlugin
