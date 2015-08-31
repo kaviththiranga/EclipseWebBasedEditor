@@ -7,7 +7,6 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.wso2.developerstudio.internal.tomcat.EmbeddedTomcatPlugin;
-import org.wso2.developerstudio.internal.tomcat.api.ITomcatServer;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -21,8 +20,6 @@ public class SampleWebEditorPlugin extends AbstractUIPlugin {
 	private static SampleWebEditorPlugin sharedInstance;
 	
 	public static String EDITOR_WEB_APP_ID = "SampleWebEditor";
-	
-	public static String EDITOR_WEB_CONTEXT = "/SampleWebEditor";
 
 	private String webAppURL;
 
@@ -42,13 +39,8 @@ public class SampleWebEditorPlugin extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		sharedInstance = this;
-		File webApp = new File(FileLocator.resolve(
-				context.getBundle().getResource("SampleWebEditor")).toURI());
 		EmbeddedTomcatPlugin internalTomcatPlugin = EmbeddedTomcatPlugin.getDefault();
-		ITomcatServer tomcatServer = internalTomcatPlugin.getServer();
-		tomcatServer.addWebApp(EDITOR_WEB_APP_ID, EDITOR_WEB_CONTEXT, webApp.getAbsolutePath());
-		webAppURL = tomcatServer.getAppURL(EDITOR_WEB_APP_ID);
-
+		webAppURL = internalTomcatPlugin.getAppURL(EDITOR_WEB_APP_ID);
 	}
 
 	/*

@@ -16,7 +16,6 @@ var loadFileContent = function() {
 }
 
 var onFocusGain = function() {
-    IDESetFocusToEditorPart();
     getIDEDirtyContent();
 }
 

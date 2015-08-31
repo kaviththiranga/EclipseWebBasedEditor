@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.ServerSocket;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,8 +27,6 @@ import javax.servlet.ServletException;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
-import org.eclipse.core.runtime.FileLocator;
-import org.wso2.developerstudio.internal.tomcat.EmbeddedTomcatPlugin;
 import org.wso2.developerstudio.internal.tomcat.api.ITomcatServer;
 
 public class TomcatServerImpl implements ITomcatServer {
@@ -37,10 +34,28 @@ public class TomcatServerImpl implements ITomcatServer {
 	protected Tomcat tomcat;
 	protected Map<String, String> deployedApps;
 	protected Integer port;
+	protected File webAppRoot;
+
+	public File getWebAppRoot() {
+		return webAppRoot;
+	}
+
+	public void setWebAppRoot(File webAppRoot) {
+		this.webAppRoot = webAppRoot;
+	}
 
 	public TomcatServerImpl() {
 		deployedApps = new HashMap<>();
 		configureServer();
+	}
+
+	private void initWebApps() {
+		for(File file:webAppRoot.listFiles()){
+			if(file.isDirectory()){
+				addWebApp(file.getName(), "/"+ file.getName(), file.getAbsolutePath());
+			}
+		}
+		
 	}
 
 	private void configureServer() {
@@ -58,14 +73,14 @@ public class TomcatServerImpl implements ITomcatServer {
 	@Override
 	public void start() {
 		try {
-			tomcat.init();
-			tomcat.getService().setContainer(tomcat.getEngine());
+			initWebApps();
+			tomcat.getHost();
 			tomcat.start();
 		} catch (LifecycleException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// tomcat.getServer().await();
+		//tomcat.getServer().await();
 	}
 
 	@Override
