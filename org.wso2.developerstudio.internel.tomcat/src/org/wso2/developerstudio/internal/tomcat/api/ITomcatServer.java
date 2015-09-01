@@ -17,11 +17,41 @@ package org.wso2.developerstudio.internal.tomcat.api;
 
 public interface ITomcatServer {
 
-	void addWebApp(String appID, String context, String docBase);
+	/**
+	 * Method to add a web application to server.
+	 * 
+	 * @param appID
+	 *            A unique ID for the app.
+	 * @param context
+	 *            Deploying context.
+	 * @param docBase
+	 *            Root folder of the application.
+	 * @throws Exception
+	 */
+	void addWebApp(String appID, String context, String docBase)
+			throws Exception;
 
+	/**
+	 * Method to get full URL to access a particular web application.
+	 * 
+	 * @param appID
+	 *            Unique ID of the web application.
+	 * 
+	 * @return complete URL to access given web application.
+	 */
 	String getAppURL(String appID);
-	
-	void start();
-	
-	void stop();
+
+	/**
+	 * Method to start the embedded tomcat server.
+	 * 
+	 * @throws Exception
+	 */
+	void start() throws Exception;
+
+	/**
+	 * Method to stop the embedded tomcat server.
+	 * 
+	 * @throws Exception
+	 */
+	void stop() throws Exception;
 }

@@ -13,26 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.wso2.developerstudio.samplewebeditor.editors;
+package org.wso2.developerstudio.internal.tomcat;
 
-import org.wso2.developerstudio.webeditor.core.AbstractWebBasedEditor;
-import org.wso2.developerstudio.samplewebeditor.SampleWebEditorPlugin;
+import org.eclipse.ui.IStartup;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.BundleException;
 
-public class SampleTextAreaWebEditor extends AbstractWebBasedEditor{
-
-	@Override
-	public String getWebAppURL() {
-		return SampleWebEditorPlugin.getDefault().getEditorAppURL();
-	}
+public class EmbeddedTomcatStartup implements IStartup {
 
 	@Override
-	public String getEditorName() {
-		return "Sample Editor";
+	public void earlyStartup() {
+		BundleContext context = EmbeddedTomcatPlugin.getContext();
+		Bundle bundle = context.getBundle();
+		if (bundle.getState() != Bundle.ACTIVE) {
+			try {
+				bundle.start();
+			} catch (BundleException e) {
+				//throw new BundleException("Error while starting embedded tomcat bundle", e);
+			}
+		}
 	}
-
-	@Override
-	public String getEditorTitleToolTip() {
-		return "Sample Editor";
-	}
-
 }

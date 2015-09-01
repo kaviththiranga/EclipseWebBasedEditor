@@ -4,7 +4,8 @@ Bundle-Name: Embedded-Tomcat-Server
 Bundle-SymbolicName: org.wso2.developerstudio.internal.tomcat;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.ui
+ org.eclipse.ui,
+ org.wso2.developerstudio.eclipse.logging
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ClassPath: .,
  libs/ecj-4.4.2.jar,

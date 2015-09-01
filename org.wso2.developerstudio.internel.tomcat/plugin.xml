@@ -3,7 +3,7 @@
 <plugin>
    <extension
          point="org.eclipse.ui.startup">
-         <startup class="org.wso2.developerstudio.internal.tomcat.Startup"/>
+         <startup class="org.wso2.developerstudio.internal.tomcat.EmbeddedTomcatStartup"/>
    </extension>
 
 </plugin>

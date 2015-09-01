@@ -1,11 +1,24 @@
+/*
+ * Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.wso2.developerstudio.samplewebeditor;
 
-import java.io.File;
-
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import org.wso2.developerstudio.internal.tomcat.AppIDConstants;
 import org.wso2.developerstudio.internal.tomcat.EmbeddedTomcatPlugin;
 
 /**
@@ -14,12 +27,10 @@ import org.wso2.developerstudio.internal.tomcat.EmbeddedTomcatPlugin;
 public class SampleWebEditorPlugin extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.wso2.developerstudio.samplewebeditor"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "org.wso2.developerstudio.samplewebeditor";
 
 	// The shared instance
 	private static SampleWebEditorPlugin sharedInstance;
-	
-	public static String EDITOR_WEB_APP_ID = "SampleWebEditor";
 
 	private String webAppURL;
 
@@ -39,8 +50,10 @@ public class SampleWebEditorPlugin extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		sharedInstance = this;
-		EmbeddedTomcatPlugin internalTomcatPlugin = EmbeddedTomcatPlugin.getDefault();
-		webAppURL = internalTomcatPlugin.getAppURL(EDITOR_WEB_APP_ID);
+		EmbeddedTomcatPlugin internalTomcatPlugin = EmbeddedTomcatPlugin
+				.getDefault();
+		webAppURL = internalTomcatPlugin
+				.getAppURL(AppIDConstants.SAMPLE_WEB_EDITOR_APP_ID);
 	}
 
 	/*
@@ -64,6 +77,11 @@ public class SampleWebEditorPlugin extends AbstractUIPlugin {
 		return sharedInstance;
 	}
 
+	/**
+	 * Method to get the web application URL for sample web editor.
+	 * 
+	 * @return URL to access sample web editor.
+	 */
 	public String getEditorAppURL() {
 		return webAppURL;
 	}

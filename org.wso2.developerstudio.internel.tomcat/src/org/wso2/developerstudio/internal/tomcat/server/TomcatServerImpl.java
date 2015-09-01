@@ -21,6 +21,8 @@ import java.net.MalformedURLException;
 import java.net.ServerSocket;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 
@@ -31,10 +33,12 @@ import org.wso2.developerstudio.internal.tomcat.api.ITomcatServer;
 
 public class TomcatServerImpl implements ITomcatServer {
 
+	private static final String WEB_XML_REL_PATH = "/WEB-INF/web.xml";
 	protected Tomcat tomcat;
 	protected Map<String, String> deployedApps;
 	protected Integer port;
 	protected File webAppRoot;
+	protected Logger logger;
 
 	public File getWebAppRoot() {
 		return webAppRoot;
@@ -44,77 +48,81 @@ public class TomcatServerImpl implements ITomcatServer {
 		this.webAppRoot = webAppRoot;
 	}
 
-	public TomcatServerImpl() {
+	public TomcatServerImpl() throws IOException {
+		logger = Logger.getLogger("org.apache");
+		logger.setLevel(Level.ALL);
 		deployedApps = new HashMap<>();
 		configureServer();
 	}
 
-	private void initWebApps() {
-		for(File file:webAppRoot.listFiles()){
-			if(file.isDirectory()){
-				addWebApp(file.getName(), "/"+ file.getName(), file.getAbsolutePath());
+	private void initWebApps() throws Exception {
+		for (File file : webAppRoot.listFiles()) {
+			if (file.isDirectory()) {
+				addWebApp(file.getName(), "/" + file.getName(),
+						file.getAbsolutePath());
 			}
 		}
-		
 	}
 
-	private void configureServer() {
-
+	private void configureServer() throws IOException {
 		tomcat = new Tomcat();
 		try {
 			port = getAvailablePort();
 			tomcat.setPort(port);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new IOException(
+					"Error while configuring tomcat server of DevStudio.", e);
 		}
 	}
 
 	@Override
-	public void start() {
+	public void start() throws Exception {
 		try {
 			initWebApps();
 			tomcat.getHost();
 			tomcat.start();
 		} catch (LifecycleException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new LifecycleException(
+					"Error while starting tomcat server of DevStudio.", e);
 		}
-		//tomcat.getServer().await();
 	}
 
 	@Override
-	public void stop() {
+	public void stop() throws LifecycleException {
 		try {
 			tomcat.stop();
 		} catch (LifecycleException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new LifecycleException(
+					"Error while stopping embedded tomcat server of DevStudio.",
+					e);
 		}
 	}
 
 	@Override
-	public void addWebApp(String appID, String context, String docBase) {
+	public void addWebApp(String appID, String context, String docBase)
+			throws Exception {
 		try {
 			Context appContext = tomcat.addWebapp(context, docBase);
-			File configFile = new File(docBase + "/WEB-INF/web.xml");
+			File configFile = new File(docBase + WEB_XML_REL_PATH);
 			if (configFile.exists()) {
 				appContext.setConfigFile(configFile.toURI().toURL());
 			}
 			appContext.setParentClassLoader(Thread.currentThread()
 					.getContextClassLoader());
 			deployedApps.put(appID, getURLForContext(context));
-		} catch (ServletException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
+		} catch (ServletException | MalformedURLException e) {
+			throw new Exception("Error while adding web app: " + appID + " at "
+					+ docBase + " to embedded tomcat server of DevStudio.", e);
 		}
 	}
 
 	@Override
 	public String getAppURL(String appID) {
 		return deployedApps.get(appID);
+	}
+	
+	public Integer getServerPort(){
+		return port;
 	}
 
 	private String getURLForContext(String context) {

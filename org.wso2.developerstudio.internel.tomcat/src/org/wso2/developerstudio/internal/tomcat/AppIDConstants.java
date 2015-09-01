@@ -13,26 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.wso2.developerstudio.samplewebeditor.editors;
+package org.wso2.developerstudio.internal.tomcat;
 
-import org.wso2.developerstudio.webeditor.core.AbstractWebBasedEditor;
-import org.wso2.developerstudio.samplewebeditor.SampleWebEditorPlugin;
+public class AppIDConstants {
 
-public class SampleTextAreaWebEditor extends AbstractWebBasedEditor{
-
-	@Override
-	public String getWebAppURL() {
-		return SampleWebEditorPlugin.getDefault().getEditorAppURL();
-	}
-
-	@Override
-	public String getEditorName() {
-		return "Sample Editor";
-	}
-
-	@Override
-	public String getEditorTitleToolTip() {
-		return "Sample Editor";
-	}
-
+	public static final String SAMPLE_WEB_EDITOR_APP_ID = "SampleWebEditor";
 }
