@@ -44,6 +44,7 @@ public class TomcatServerImpl implements ITomcatServer {
 		return webAppRoot;
 	}
 
+	@Override
 	public void setWebAppRoot(File webAppRoot) {
 		this.webAppRoot = webAppRoot;
 	}
@@ -121,6 +122,7 @@ public class TomcatServerImpl implements ITomcatServer {
 		return deployedApps.get(appID);
 	}
 	
+	@Override
 	public Integer getServerPort(){
 		return port;
 	}

@@ -29,13 +29,15 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.wso2.developerstudio.eclipse.logging.core.IDeveloperStudioLog;
 import org.wso2.developerstudio.eclipse.logging.core.Logger;
+import org.wso2.developerstudio.internal.tomcat.api.ITomcatServer;
+import org.wso2.developerstudio.internal.tomcat.server.TomcatServerImpleNew;
 
 public class EmbeddedTomcatPlugin implements BundleActivator {
 
 	public static final String PLUGIN_ID = "org.wso2.developerstudio.internal.tomcat";
 
 	private static final String LIBS_DIR = "libs";
-	private static final String SERVER_CLASS = "org.wso2.developerstudio.internal.tomcat.server.TomcatServerImpl";
+	private static final String SERVER_CLASS = "org.wso2.developerstudio.internal.tomcat.server.TomcatServerImpleNew";
 	private static final String METHOD_START = "start";
 	private static final String METHOD_SET_WEB_ROOT = "setWebAppRoot";
 	private static final String METHOD_STOP = "stop";
@@ -57,61 +59,64 @@ public class EmbeddedTomcatPlugin implements BundleActivator {
 		plugin = this;
 		log.info("Starting embedded tomcat server of DevStudio.");
 		// Start embedded Tomcat with a separate class loader
-		Thread tomcatThread = new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				try {
-					final List<URL> classPath = new ArrayList<>();
-					// Add root directory of the bundle to class-path
-					final URL bundleURI = FileLocator.resolve(context
-							.getBundle().getResource("."));
-					classPath.add(bundleURI);
-
-					// Add third party libs to class-path
-					final URI libsURI = FileLocator.resolve(
-							context.getBundle().getResource(LIBS_DIR)).toURI();
-					final File libs = new File(libsURI);
-					addJarsToClassPath(libs, classPath);
-
-					ClassLoader tomcatClassLoader = new URLClassLoader(
-							classPath.toArray(new URL[classPath.size()]));
-					// Set the proper class loader for this thread.
-					Thread.currentThread().setContextClassLoader(
-							tomcatClassLoader);
-
-					Class<?> serverClass = tomcatClassLoader
-							.loadClass(SERVER_CLASS);
-					serverInstance = serverClass.newInstance();
-
-					// Set web application root
-					File webAppRoot = new File(FileLocator.resolve(
-							context.getBundle().getResource(WEBAPPS_DIR))
-							.toURI());
-					Method setWebRootMethod = serverInstance.getClass()
-							.getMethod(METHOD_SET_WEB_ROOT, File.class);
-					setWebRootMethod.invoke(serverInstance, webAppRoot);
-
-					// Start the server
-					Method startMethod = serverInstance.getClass().getMethod(
-							METHOD_START, new Class[0]);
-					startMethod.invoke(serverInstance, new Object[0]);
-					
-					// get server port
-					Method getPortMethod = serverInstance.getClass().getMethod(
-							METHOD_GET_SERVER_PORT, new Class[0]);
-					Integer port = (Integer) getPortMethod.invoke(serverInstance, new Object[0]);
-					log.info("Embedded tomcat server is suceessfully started on port " + port);
-					
-				} catch (Exception ex) {
-					log.error("Error while starting embedded tomcat server.",
-							ex);
-				}
-			}
-		});
-		tomcatThread.start();
-		// wait till server is started completely
-		tomcatThread.join();
+//		Thread tomcatThread = new Thread(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				try {
+//					final List<URL> classPath = new ArrayList<>();
+//					// Add root directory of the bundle to class-path
+//					final URL bundleURI = FileLocator.resolve(context
+//							.getBundle().getResource("."));
+//					classPath.add(bundleURI);
+//
+//					// Add third party libs to class-path
+//					final URI libsURI = FileLocator.resolve(
+//							context.getBundle().getResource(LIBS_DIR)).toURI();
+//					final File libs = new File(libsURI);
+//					addJarsToClassPath(libs, classPath);
+//
+//					ClassLoader tomcatClassLoader = new URLClassLoader(
+//							classPath.toArray(new URL[classPath.size()]));
+//					// Set the proper class loader for this thread.
+//					Thread.currentThread().setContextClassLoader(
+//							tomcatClassLoader);
+//
+//					Class<?> serverClass = tomcatClassLoader
+//							.loadClass(SERVER_CLASS);
+//					serverInstance = serverClass.newInstance();
+//
+//					// Set web application root
+//					File webAppRoot = new File(FileLocator.resolve(
+//							context.getBundle().getResource(WEBAPPS_DIR))
+//							.toURI());
+//					Method setWebRootMethod = serverInstance.getClass()
+//							.getMethod(METHOD_SET_WEB_ROOT, File.class);
+//					setWebRootMethod.invoke(serverInstance, webAppRoot);
+//
+//					// Start the server
+//					Method startMethod = serverInstance.getClass().getMethod(
+//							METHOD_START, new Class[0]);
+//					startMethod.invoke(serverInstance, new Object[0]);
+//					
+//					// get server port
+//					Method getPortMethod = serverInstance.getClass().getMethod(
+//							METHOD_GET_SERVER_PORT, new Class[0]);
+//					Integer port = (Integer) getPortMethod.invoke(serverInstance, new Object[0]);
+//					log.info("Embedded tomcat server is suceessfully started on port " + port);
+//					
+//				} catch (Exception ex) {
+//					log.error("Error while starting embedded tomcat server.",
+//							ex);
+//				}
+//			}
+//		});
+//		tomcatThread.start();
+//		// wait till server is started completely
+//		tomcatThread.join();
+		
+		serverInstance = new TomcatServerImpleNew();
+		((ITomcatServer)serverInstance).start();
 	}
 
 	public void stop(BundleContext bundleContext) throws Exception {

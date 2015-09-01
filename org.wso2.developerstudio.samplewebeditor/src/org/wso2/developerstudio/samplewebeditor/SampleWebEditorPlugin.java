@@ -50,10 +50,10 @@ public class SampleWebEditorPlugin extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		sharedInstance = this;
-		EmbeddedTomcatPlugin internalTomcatPlugin = EmbeddedTomcatPlugin
-				.getDefault();
-		webAppURL = internalTomcatPlugin
-				.getAppURL(AppIDConstants.SAMPLE_WEB_EDITOR_APP_ID);
+//		EmbeddedTomcatPlugin internalTomcatPlugin = EmbeddedTomcatPlugin
+//				.getDefault();
+//		webAppURL = internalTomcatPlugin
+//				.getAppURL(AppIDConstants.SAMPLE_WEB_EDITOR_APP_ID);
 	}
 
 	/*

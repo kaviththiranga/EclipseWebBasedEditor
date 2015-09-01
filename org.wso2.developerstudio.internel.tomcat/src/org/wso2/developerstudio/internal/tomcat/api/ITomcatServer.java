@@ -15,6 +15,8 @@
  */
 package org.wso2.developerstudio.internal.tomcat.api;
 
+import java.io.File;
+
 public interface ITomcatServer {
 
 	/**
@@ -54,4 +56,8 @@ public interface ITomcatServer {
 	 * @throws Exception
 	 */
 	void stop() throws Exception;
+
+	void setWebAppRoot(File webAppRoot);
+
+	Integer getServerPort();
 }

@@ -22,7 +22,7 @@ public class SampleTextAreaWebEditor extends AbstractWebBasedEditor{
 
 	@Override
 	public String getWebAppURL() {
-		return SampleWebEditorPlugin.getDefault().getEditorAppURL();
+		return "http://localhost:8080/manager";
 	}
 
 	@Override
