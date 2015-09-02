@@ -19,8 +19,12 @@ import org.eclipse.ui.IStartup;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
+import org.wso2.developerstudio.eclipse.logging.core.IDeveloperStudioLog;
+import org.wso2.developerstudio.eclipse.logging.core.Logger;
 
 public class EmbeddedTomcatStartup implements IStartup {
+
+	private static IDeveloperStudioLog log = Logger.getLog(EmbeddedTomcatPlugin.PLUGIN_ID);
 
 	@Override
 	public void earlyStartup() {
@@ -30,7 +34,7 @@ public class EmbeddedTomcatStartup implements IStartup {
 			try {
 				bundle.start();
 			} catch (BundleException e) {
-				//throw new BundleException("Error while starting embedded tomcat bundle", e);
+				log.error("Error while starting embedded tomcat bundle", e);
 			}
 		}
 	}

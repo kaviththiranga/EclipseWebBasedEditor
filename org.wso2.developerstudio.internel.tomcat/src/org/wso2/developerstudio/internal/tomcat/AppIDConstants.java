@@ -18,4 +18,5 @@ package org.wso2.developerstudio.internal.tomcat;
 public class AppIDConstants {
 
 	public static final String SAMPLE_WEB_EDITOR_APP_ID = "SampleWebEditor";
+	public static final String TEST_WEB_APP_ID = "TestApp";
 }

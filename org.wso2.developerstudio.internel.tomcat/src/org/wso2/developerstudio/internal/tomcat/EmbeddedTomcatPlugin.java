@@ -45,7 +45,8 @@ public class EmbeddedTomcatPlugin implements BundleActivator {
 
 	private static BundleContext context;
 
-	private static IDeveloperStudioLog log = Logger.getLog(EmbeddedTomcatPlugin.PLUGIN_ID);
+	private static IDeveloperStudioLog log = Logger
+			.getLog(EmbeddedTomcatPlugin.PLUGIN_ID);
 
 	/** The shared plug-in instance */
 	private static EmbeddedTomcatPlugin plugin;
@@ -96,13 +97,15 @@ public class EmbeddedTomcatPlugin implements BundleActivator {
 					Method startMethod = serverInstance.getClass().getMethod(
 							METHOD_START, new Class[0]);
 					startMethod.invoke(serverInstance, new Object[0]);
-					
+
 					// get server port
 					Method getPortMethod = serverInstance.getClass().getMethod(
 							METHOD_GET_SERVER_PORT, new Class[0]);
-					Integer port = (Integer) getPortMethod.invoke(serverInstance, new Object[0]);
-					log.info("Embedded tomcat server is suceessfully started on port " + port);
-					
+					Integer port = (Integer) getPortMethod.invoke(
+							serverInstance, new Object[0]);
+					log.info("Embedded tomcat server is suceessfully started on port "
+							+ port);
+
 				} catch (Exception ex) {
 					log.error("Error while starting embedded tomcat server.",
 							ex);
@@ -123,7 +126,9 @@ public class EmbeddedTomcatPlugin implements BundleActivator {
 					new Class[0]);
 			m.invoke(serverInstance, new Object[0]);
 		} catch (Exception e) {
-			log.error("Error while stopping embedded tomcat server of DevStudio.", e);
+			log.error(
+					"Error while stopping embedded tomcat server of DevStudio.",
+					e);
 		}
 	}
 
